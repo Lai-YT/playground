@@ -1,3 +1,6 @@
+#ifndef UT_ANIMAL_H
+#define UT_ANIMAL_H
+
 #include "../src/animal.h"
 #include "../src/dog.h"
 #include "../src/bird.h"
@@ -134,3 +137,6 @@ TEST_F(AnimalTest, Friend_list_so_smart) {
   ASSERT_EQ(1, teddy_friend_name_list.size());
   ASSERT_EQ("Bob", teddy_friend_name_list.at(0));
 }
+
+
+#endif /* end of include guard: UT_ANIMAL_H */

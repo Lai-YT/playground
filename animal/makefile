@@ -1,23 +1,27 @@
 .PHONY: dirs clean stat
 
-all: dirs ut_all
-
 CFLAGS = -std=c++11 -fno-elide-constructors -Wfatal-errors
 CC = g++
-SRC_HEADERS = src/animal.h src/dog.h src/bird.h
-TEST_HEADERS = test/ut_animal.h
+TEST = test/ut_main.cpp test/ut_animal.h
+OBJ = obj/ut_main.o obj/animal.o obj/dog.o obj/bird.o
+LIBS = -lgtest -lpthread
 
-main: $(SRC_HEADERS)
-	$(CC) $(CFLAGS) src/main.cpp -o bin/ut_all
+all: dirs ut_all
 
-ut_all: test/ut_main.cpp $(TEST_HEADERS) $(SRC_HEADERS)
-	$(CC) $(CFLAGS) test/ut_main.cpp -o bin/ut_all -lgtest -lpthread
+ut_all: $(OBJ) $(TEST)
+	$(CC) $(CFLAGS) -o bin/ut_all $(OBJ) $(LIBS)
+
+obj/ut_main.o:
+	$(CC) $(CFLAGS) -c test/ut_main.cpp -o obj/ut_main.o
+
+obj/%.o: src/%.cpp src/%.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 dirs:
-	mkdir -p bin
+	mkdir -p bin obj
 
 clean:
-	rm -rf bin
+	rm -rf bin obj
 
 stat:
 	wc src/* test/*
