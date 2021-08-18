@@ -1,5 +1,3 @@
-/* g++ -std=c++11 3_in_array.cpp -o bin/in_array -pthread */
-
 #include <iostream>
 #include <thread>
 

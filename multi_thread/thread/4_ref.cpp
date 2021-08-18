@@ -1,5 +1,3 @@
-/* g++ -std=c++11 3_ref.cpp -o bin/ref -pthread */
-
 #include <iostream>
 #include <thread>
 

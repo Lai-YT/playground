@@ -1,5 +1,3 @@
-/* g++ -std=c++11 2_mem_func.cpp -o bin/mem_func -pthread */
-
 #include <iostream>
 #include <thread>
 

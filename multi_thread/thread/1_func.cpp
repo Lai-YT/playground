@@ -1,5 +1,3 @@
-/* g++ -std=c++14 1_func.cpp -o bin/func -pthread */
-
 #include <chrono>
 #include <iostream>
 #include <thread>
