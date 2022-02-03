@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from data import Item
 from exceptions import ItemAlreadyStoredError, ItemNotStoredError
 
@@ -31,23 +33,23 @@ def create_items(items):
 def read_item(name):
     item = _find_item(name)
     if item is None:
-        raise ItemNotStoredError(f'Can\'t read "{name}" because it\'s not stored!')
-    return item
+        raise ItemNotStoredError(f'Can\'t read "{name}" because it\'s not stored')
+    return deepcopy(item)
 
 
 def read_items():
-    return list(_item_base)
+    return deepcopy(_item_base)
 
 
 def update_item(item):
     old_item = _find_item(item.name)
     if old_item is None:
-        raise ItemNotStoredError(f'Can\'t update "{item.name}" because it\'s not stored!')
+        raise ItemNotStoredError(f'Can\'t update "{item.name}" because it\'s not stored')
     old_item.price, old_item.quantity = item.price, item.quantity
 
 
 def delete_item(name):
     item = _find_item(name)
     if item is None:
-        raise ItemNotStoredError(f'Can\'t delete "{name}" because it\'s not stored!')
+        raise ItemNotStoredError(f'Can\'t delete "{name}" because it\'s not stored')
     _item_base.remove(item)
