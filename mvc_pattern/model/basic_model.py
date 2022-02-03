@@ -1,4 +1,4 @@
-import backend
+import backend.basic_backend as backend
 
 
 class BasicModel:
