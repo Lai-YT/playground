@@ -1,14 +1,16 @@
-import backend.sqlite_backend as sql
+import sys
+
 from controller import Controller
 from data import Item
-from model.basic_model import BasicModel
+from model import BasicModel, SQLiteModel
 from view import View
 
 
-def basic_main():
+def client_code(model_type):
+    """When using MVC pattern, things work the same."""
 
     cont = Controller(
-        BasicModel(
+        model_type(
             [
                 Item('bread', 0.5, 20),
                 Item('milk', 1.0, 10),
@@ -17,6 +19,7 @@ def basic_main():
         ),
         View()
     )
+
     cont.show_items()
     cont.show_items(bullet_point=True)
 
@@ -35,37 +38,12 @@ def basic_main():
     cont.show_items()
 
 
-def sqlite_main():
-    table_name = 'items'
-    conn = sql.connect_to_db()
-
-    sql.create_table(conn, table_name)
-
-    print('--- create ---')
-    sql.insert_many(
-        conn,
-        [
-            Item('bread', 0.5, 20),
-            Item('milk', 1.0, 10),
-            Item('wine', 10.0, 5),
-        ],
-        table_name
-    )
-    sql.insert_one(conn, Item('beer', 2.0, 5), table_name)
-
-    print('--- read ---')
-    print(sql.select_one(conn, 'milk', table_name))
-    print(sql.select_all(conn, table_name))
-
-    print('--- update ---')
-    sql.update_one(conn, Item('bread', 1.5, 5), table_name)
-    print(sql.select_one(conn, 'bread', table_name))
-
-
-    print('--- delete ---')
-    sql.delete_one(conn, 'beer', table_name)
-    print(sql.select_all(conn, table_name))
-
-
 if __name__ == '__main__':
-    sqlite_main()
+    if len(sys.argv) < 2:
+        print('please specify which model to use: basic | sqlite')
+    elif sys.argv[1] == 'basic':
+        client_code(BasicModel)
+    elif sys.argv[1] == 'sqlite':
+        client_code(SQLiteModel)
+    else:
+        print('please specify which model to use: basic | sqlite')
