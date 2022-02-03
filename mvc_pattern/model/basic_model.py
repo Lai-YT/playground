@@ -1,7 +1,8 @@
 import backend.basic_backend as backend
+from model.model_interface import ModelInterface
 
 
-class BasicModel:
+class BasicModel(ModelInterface):
     def __init__(self, app_items=None):
         self._item_type = 'product'
         if app_items is not None:
