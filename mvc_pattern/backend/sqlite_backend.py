@@ -94,7 +94,7 @@ def select_all(conn, table_name):
         '''.format(table_name)
     cursor = conn.execute(sql)
     results = cursor.fetchall()
-    return [Item(*data[1:]) for data in results]
+    return [Item(*result[1:]) for result in results]
 
 
 @connect
@@ -108,7 +108,7 @@ def update_one(conn, item, table_name):
     cursor = conn.execute(sql_check, (item.name,))
     result = cursor.fetchone()
     if result[0] == 0:
-        raise ItemNotStoredError(f'Can\'t update {item.name} because it\'s not stored'
+        raise ItemNotStoredError(f'can\'t update {item.name} because it\'s not stored'
                                  f' in table "{table_name}"')
     cursor.execute(sql_update, (item.price, item.quantity, item.name))
     conn.commit()
@@ -125,7 +125,7 @@ def delete_one(conn, item_name, table_name):
     cursor = conn.execute(sql_check, (item_name,))
     result = cursor.fetchone()
     if result[0] == 0:
-        raise ItemNotStoredError(f'Can\'t delete {item_name} because it\'s not stored'
+        raise ItemNotStoredError(f'can\'t delete {item_name} because it\'s not stored'
                                  f' in table "{table_name}"')
     cursor.execute(sql_delete, (item_name,))
     conn.commit()
