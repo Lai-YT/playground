@@ -5,7 +5,7 @@ from data import Item
 from exceptions import ItemAlreadyStoredError, ItemNotStoredError
 
 
-DB_name = 'myDB'
+DB_name = 'sql_db'
 
 
 def connect_to_db(db=None):
