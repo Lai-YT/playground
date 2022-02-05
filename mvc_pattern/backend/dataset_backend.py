@@ -7,6 +7,18 @@ from data import Item
 from exceptions import ItemAlreadyStoredError, ItemNotStoredError
 
 
+DB_name = 'dataset_db'
+
+
+def connect_to_db(db=None):
+    if db is None:
+        mydb = ':memory:'
+        print('New connection to in-memory SQLite DB...')
+    else:
+        mydb = f'{db}.db'
+        print('New connection to SQLite DB...')
+    return dataset.connect(f'sqlite:///{mydb}')
+
 
 def create_table(conn, table_name):
     if not conn.has_table(table_name):
