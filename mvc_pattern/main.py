@@ -1,5 +1,8 @@
 import sys
 
+import dataset
+
+import backend.dataset_backend as dackend
 from controller import Controller
 from data import Item
 from model import BasicModel, SQLiteModel
@@ -38,6 +41,38 @@ def client_code(model_type):
     cont.show_items()
 
 
+def dataset_main():
+    conn = dataset.connect('sqlite:///:memory:')
+
+    table_name = 'items'
+    dackend.create_table(conn, table_name)
+
+    print('--- create ---')
+    dackend.insert_many(
+        conn,
+        [
+            Item('bread', 0.5, 20),
+            Item('milk', 1.0, 10),
+            Item('wine', 10.0, 5),
+        ],
+        table_name
+    )
+    dackend.insert_one(conn, Item('beer', 2.0, 5), table_name)
+    print(dackend.select_one(conn, 'bread', table_name))
+
+    print('--- read ---')
+    print(dackend.select_one(conn, 'milk', table_name))
+    print(dackend.select_all(conn, table_name))
+
+    print('--- update ---')
+    dackend.update_one(conn, Item('bread', 1.5, 5), table_name)
+    print(dackend.select_one(conn, 'bread', table_name))
+
+    print('--- delete ---')
+    dackend.delete_one(conn, 'beer', table_name)
+    print(dackend.select_all(conn, table_name))
+
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print('please specify which model to use: basic | sqlite')
@@ -45,5 +80,7 @@ if __name__ == '__main__':
         client_code(BasicModel)
     elif sys.argv[1] == 'sqlite':
         client_code(SQLiteModel)
+    elif sys.argv[1] == 'dataset':
+        dataset_main()
     else:
         print('please specify which model to use: basic | sqlite')
